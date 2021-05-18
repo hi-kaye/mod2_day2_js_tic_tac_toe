@@ -10,6 +10,8 @@ const playerTwo = 'O';
 
 let player = playerOne;
 
+let positions_played = []
+
 //create board
 const board = new Array(9);
 for (var i = 0; i < board.length; i++) {
@@ -58,11 +60,11 @@ function playMove(pos) {
   }
 
   let i;
-  console.log(checkDraw())
-
 
   for (i = 0; i < board.length; i++) {
     if (actualPosition == i && checkAvailable(actualPosition) && checkIsInt(actualPosition)) {
+      positions_played.push(pos)
+      console.log(positions_played)
       board[i] = player;
       if (player === playerOne) {
         player = playerTwo;
@@ -80,7 +82,10 @@ function playMove(pos) {
   if (winner !== ' ') {
     console.log(`${winner} is the winner!`);
     process.exit(0);
-  } 
+  } else if ((positions_played.length == board.length) && winner == ' ') {
+    console.log('It\'s a draw!')
+    process.exit(0);
+  }
   playGame();
 }
 
@@ -117,15 +122,6 @@ function checkWinner() {
     return board[2];
   }
   return ' ';
-}
-
-//check for draw
-function checkDraw() {
-  for (i = 1; i < board.length; i++) {
-      if (typeof board[i] === 'number') {
-        return true
-      } return false
-  } 
 }
 
 printBoard();
